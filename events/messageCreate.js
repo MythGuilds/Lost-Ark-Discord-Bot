@@ -1,8 +1,8 @@
 module.exports = {
 	name: 'messageCreate',
 	execute(message) {
-		let client = message.client
 		return;
+		let client = message.client
 		if (message.author.bot) return;
 		if (message.content == "") return;
 		console.log(`${message.author.username} sent a message`);

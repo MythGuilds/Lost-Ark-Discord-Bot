@@ -16,52 +16,42 @@ async function checkForCommands(interaction) {
 	else if (commandName === 'banking-channel-setup') {
 		await require("../commands/banking-channel-setup").execute(interaction)
 	}
+	else if (commandName === 'gathering-channel-setup') {
+		await require("../commands/gathering-channel-setup").execute(interaction)
+	}
 }
 function checkForButtonPresses(interaction) {
 	let client = interaction.client
 	if (interaction.isButton())
 	{
-		let nwCrafterSetup = function () {
-			if (interaction.customId == "join-new-world-crafter")
+		let nwRoleLogicSetup = function (roleName, joinID, leaveID) {
+			if (client.customData.roles[roleName] === undefined)
 			{
-				interaction.member.roles.add([  client.customData.roles["New World Crafter"]  ])
+				interaction.reply({ content: `error: can't find role ${roleName}!`, ephemeral: true })
+				return
+			}
+
+			if (interaction.customId == joinID)
+			{
+				interaction.member.roles.add([  client.customData.roles[roleName]  ])
 					.then(() => {
-						interaction.reply({ content: 'You have received the New World Crafter role...', ephemeral: true })
+						interaction.reply({ content: `You have received the ${roleName} role...`, ephemeral: true })
 					})
 					.catch((error) => {
-						interaction.reply({ content: 'You are already a New World Crafter!', ephemeral: true })
+						interaction.reply({ content: `You are already a ${roleName}!`, ephemeral: true })
 					})
 
 			}
 
-			if (interaction.customId == "leave-new-world-crafter")
+			if (interaction.customId == leaveID)
 			{
-				interaction.member.roles.remove([  client.customData.roles["New World Crafter"]  ])
-				interaction.reply({ content: 'The New World Crafter role has been taken from you...', ephemeral: true })
+				interaction.member.roles.remove([  client.customData.roles[roleName]  ])
+				interaction.reply({ content: `The ${roleName} role has been taken from you...`, ephemeral: true })
 			}
 		}
-		let nwBankerSetup = function () {
-			if (interaction.customId == "join-new-world-banker")
-			{
-				interaction.member.roles.add([  client.customData.roles["New World Banker"]  ])
-					.then(() => {
-						interaction.reply({ content: 'You have received the New World Banker role...', ephemeral: true })
-					})
-					.catch((error) => {
-						interaction.reply({ content: 'You are already a New World Banker!', ephemeral: true })
-					})
-
-			}
-
-			if (interaction.customId == "leave-new-world-banker")
-			{
-				interaction.member.roles.remove([  client.customData.roles["New World Banker"]  ])
-				interaction.reply({ content: 'The New World Banker role has been taken from you...', ephemeral: true })
-			}
-		}
-		nwBankerSetup()
-		nwCrafterSetup()
-
+		nwRoleLogicSetup("New World Crafter", "join-new-world-crafter", "leave-new-world-crafter")
+		nwRoleLogicSetup("New World Banker", "join-new-world-banker", "leave-new-world-banker")
+		nwRoleLogicSetup("New World Gather", "join-new-world-gather", "leave-new-world-gather")
 	}
 }
 

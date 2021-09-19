@@ -1,30 +1,19 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageActionRow, MessageButton, MessageEmbed } = require('discord.js');
+const roleWidget = require("../helpers/roleWidget");
 
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('crafting-channel-setup')
 		.setDescription('Set up your crafting widget'),
 	async execute(interaction) {
-		const row = new MessageActionRow()
-			.addComponents(
-				new MessageButton()
-					.setCustomId('join-new-world-crafter')
-					.setLabel('Join')
-					.setStyle('SUCCESS'),
-			)
-			.addComponents(
-				new MessageButton()
-					.setCustomId('leave-new-world-crafter')
-					.setLabel('Leave')
-					.setStyle('DANGER'),
-			);
-
-		const embed = new MessageEmbed()
-			.setColor('#0099ff')
-			.setTitle('New World Crafter')
-			.setDescription('Some description hereSome description herSome description herSome description herSome description her');
-
-		await interaction.reply({ components: [row], embeds: [embed] });
+		let roleWidget = require("../helpers/roleWidget")
+		let widget = roleWidget.create(
+			"New World Crafter",
+			"People who wish to volunteer as a crafter for company crafting projects (choose one primary profession)",
+			"join-new-world-crafter",
+			"leave-new-world-crafter"
+		)
+		await interaction.reply(widget);
 	},
 };
