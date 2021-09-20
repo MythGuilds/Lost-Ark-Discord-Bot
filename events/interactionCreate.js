@@ -5,10 +5,12 @@ async function checkForCommands(interaction) {
 
 	if (commandName === 'prune') {
 		await require("../commands/prune").execute(interaction)
-	} else if (commandName === 'channel-info') {
+	}
+	else if (commandName === 'channel-info') {
 		await require("../commands/channel-info").execute(interaction)
-	} else if (commandName === 'ping') {
-		await require("../commands/ping").execute(interaction)
+	}
+	else if (commandName === 'user-info') {
+		await require("../commands/user-info").execute(interaction)
 	}
 	else if (commandName === 'crafting-channel-setup') {
 		await require("../commands/crafting-channel-setup").execute(interaction)
