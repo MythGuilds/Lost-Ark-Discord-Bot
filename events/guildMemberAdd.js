@@ -9,7 +9,7 @@ module.exports = {
 		let client = member.client
 		const channel = member.guild.channels.cache
 			.find(channel => channel.id === client.customData.channelCodes["main-chat"])
-			.send(`Hey ${member.user}(${member.user.username}#${member.user.discriminator})! Welcome to the discord. Feel free to take a look around and chill with us.\n\nIf you have any questions about the **New World** guild toss them over to ${client.customData.adminUsers["Daemonleak"]} or ${client.customData.adminUsers["Snoberry"]}.\nFor any **other games** contact ${client.customData.adminUsers["Lexi"]}\n\n**New World Chat:** ${client.customData.channels["nw-mainchat"]}\n**General Chat:** ${client.customData.channels["main-chat"]}\n\nKeep in mind we are humans that eat, work, and sleep. If it is 12:30 am at night, we aren't going to be on Discord.`);
+			.send(`Hey ${member.user}! Welcome to the discord. Feel free to take a look around and chill with us.\n\n**To get started, pick out all the games your interested in playing with us here: ${client.customData.channels["pick-your-games"]}**\n\nIf you have any questions about the **New World** guild toss them over to ${client.customData.adminUsers["Daemonleak"]} or ${client.customData.adminUsers["Snoberry"]}.\nFor any **other games** contact ${client.customData.adminUsers["Lexi"]}\n\n`);
 		client.customData.newInviteTimes[member.user.username] = member.joinedAt
 		giveFollower(member)
 	},
