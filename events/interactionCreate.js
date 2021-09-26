@@ -1,6 +1,7 @@
 async function checkForCommands(interaction) {
 	if (!interaction.isCommand()) return;
-
+	const { adminUsers } = require('../config.json');
+	if (interaction.user.id != interaction.client.customData.adminUsers["Daemonleak"]) return;
 	const { commandName } = interaction;
 
 	if (commandName === 'prune') {

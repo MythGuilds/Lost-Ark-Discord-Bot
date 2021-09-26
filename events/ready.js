@@ -1,4 +1,3 @@
-const {adminUsers} = require("./config.json");
 
 function setupRoles(client) {
 	client.customData.roles = {}
@@ -31,7 +30,7 @@ module.exports = {
 	name: 'ready',
 	once: true,
 	async execute(client) {
-		const { channelCodes, guildName, adminUsers } = require('./config.json');
+		const { channelCodes, guildName, adminUsers } = require('../config.json');
 		client.customData = {}
 		client.customData.guildName = guildName
 
