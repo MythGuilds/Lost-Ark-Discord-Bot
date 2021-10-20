@@ -77,7 +77,7 @@ function checkForButtonPresses(interaction) {
 								interaction.reply({ content: `You have received the ${roleName} role...`, ephemeral: true })
 							})
 							.catch((error) => {
-								interaction.reply({ content: `You are already have access too ${roleName}!`, ephemeral: true })
+								interaction.reply({ content: `You already have access too ${roleName}!`, ephemeral: true })
 							})
 					})
 			}
@@ -88,9 +88,6 @@ function checkForButtonPresses(interaction) {
 				interaction.reply({ content: `The ${roleName} role has been taken from you...`, ephemeral: true })
 			}
 		}
-		nwRoleLogicSetup("New World Crafter", "join-new-world-crafter", "leave-new-world-crafter")
-		nwRoleLogicSetup("New World Banker", "join-new-world-banker", "leave-new-world-banker")
-		nwRoleLogicSetup("New World Gather", "join-new-world-gather", "leave-new-world-gather")
 		nwGameRoleLogicSetup("New World", "join-new-world", "leave-new-world")
 		nwGameRoleLogicSetup("dota2", "join-dota", "leave-dota")
 	}
