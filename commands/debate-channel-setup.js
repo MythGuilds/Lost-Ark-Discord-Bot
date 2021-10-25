@@ -4,15 +4,15 @@ const roleWidget = require("../helpers/roleWidget");
 
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName('gathering-channel-setup')
-		.setDescription('Set up your gathering widget'),
+		.setName('debate-channel-setup')
+		.setDescription('Set up your debate widget'),
 	async execute(interaction) {
 		let roleWidget = require("../helpers/roleWidget")
 		let widget = roleWidget.create(
-			"New World Gather",
-			"People who wish to volunteer as a gatherer for company crafting projects (You'll be assigned runs/quotas and all mats gathered go to the company for that time)",
-			"join-new-world-gather",
-			"leave-new-world-gather"
+			"Debate Channel Access",
+			"If you are asked to move an argument to the debate room, use this widget to gain access. You may also hide the debate room by removing your debate role.",
+			"join-debate",
+			"leave-debate"
 		)
 		await interaction.reply(widget);
 	},

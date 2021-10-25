@@ -13,20 +13,14 @@ async function checkForCommands(interaction) {
 	else if (commandName === 'user-info') {
 		await require("../commands/user-info").execute(interaction)
 	}
-	else if (commandName === 'crafting-channel-setup') {
-		await require("../commands/crafting-channel-setup").execute(interaction)
-	}
-	else if (commandName === 'banking-channel-setup') {
-		await require("../commands/banking-channel-setup").execute(interaction)
-	}
-	else if (commandName === 'gathering-channel-setup') {
-		await require("../commands/gathering-channel-setup").execute(interaction)
-	}
 	else if (commandName === 'new-world-channel-setup') {
 		await require("../commands/new-world-channel-setup").execute(interaction)
 	}
 	else if (commandName === 'dota-channel-setup') {
 		await require("../commands/dota-channel-setup").execute(interaction)
+	}
+	else if (commandName === 'debate-channel-setup') {
+		await require("../commands/debate-channel-setup").execute(interaction)
 	}
 }
 function checkForButtonPresses(interaction) {
@@ -90,6 +84,7 @@ function checkForButtonPresses(interaction) {
 		}
 		nwGameRoleLogicSetup("New World", "join-new-world", "leave-new-world")
 		nwGameRoleLogicSetup("dota2", "join-dota", "leave-dota")
+		nwGameRoleLogicSetup("debater", "join-debate", "leave-debate")
 	}
 }
 

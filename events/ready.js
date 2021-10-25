@@ -7,11 +7,9 @@ function setupRoles(client) {
 	}
 
 	findAndSetRole("Follower")
-	findAndSetRole("New World Crafter")
-	findAndSetRole("New World Banker")
-	findAndSetRole("New World Gather")
 	findAndSetRole("New World")
 	findAndSetRole("dota2")
+	findAndSetRole("debater")
 
 	// Create missing roles
 	for (let [key, role] of Object.entries(client.customData.roles))
