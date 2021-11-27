@@ -9,6 +9,7 @@ function setupRoles(client) {
 	findAndSetRole("Follower")
 	findAndSetRole("New World")
 	findAndSetRole("dota2")
+	findAndSetRole("Archeage")
 	findAndSetRole("debater")
 
 	// Create missing roles

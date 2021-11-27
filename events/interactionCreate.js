@@ -22,6 +22,9 @@ async function checkForCommands(interaction) {
 	else if (commandName === 'debate-channel-setup') {
 		await require("../commands/debate-channel-setup").execute(interaction)
 	}
+	else if (commandName === 'archeage-channel-setup') {
+		await require("../commands/archeage-channel-setup").execute(interaction)
+	}
 }
 function checkForButtonPresses(interaction) {
 	let client = interaction.client
@@ -84,6 +87,7 @@ function checkForButtonPresses(interaction) {
 		}
 		nwGameRoleLogicSetup("New World", "join-new-world", "leave-new-world")
 		nwGameRoleLogicSetup("dota2", "join-dota", "leave-dota")
+		nwGameRoleLogicSetup("Archeage", "join-archeage", "leave-archeage")
 		nwGameRoleLogicSetup("debater", "join-debate", "leave-debate")
 	}
 }
