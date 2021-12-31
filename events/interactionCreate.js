@@ -64,7 +64,7 @@ function checkForButtonPresses(interaction) {
 
 			if (interaction.customId == joinID)
 			{
-				interaction.member.roles.add([  client.customData.roles[roleName], client.customData.roles["Follower"]  ])
+				interaction.member.roles.add([  client.customData.roles[roleName] ])
 					.then(() => {
 						interaction.reply({ content: `You have received the ${roleName} role...`, ephemeral: true })
 					})
