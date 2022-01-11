@@ -4,15 +4,15 @@ const roleWidget = require("../helpers/roleWidget");
 
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName('new-world-channel-setup')
-		.setDescription('Set up your new world widget'),
+		.setName('lost-ark-channel-setup')
+		.setDescription('Set up your lost ark widget'),
 	async execute(interaction) {
 		let roleWidget = require("../helpers/roleWidget")
 		let widget = roleWidget.create(
-			"New World",
-			"If you want to be able to see and interact with New World content, grab this role",
-			"join-new-world",
-			"leave-new-world"
+			"Lost Ark",
+			"If you want to be able to see and interact with Lost Ark content, grab this role",
+			"join-lost-ark",
+			"leave-lost-ark"
 		)
 		await interaction.reply(widget);
 	},

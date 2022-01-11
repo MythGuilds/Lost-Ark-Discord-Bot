@@ -7,7 +7,7 @@ function setupRoles(client) {
 	}
 
 	findAndSetRole("Follower")
-	findAndSetRole("New World")
+	findAndSetRole("Lost Ark")
 	findAndSetRole("dota2")
 	findAndSetRole("Archeage")
 	findAndSetRole("debater")

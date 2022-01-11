@@ -13,8 +13,8 @@ async function checkForCommands(interaction) {
 	else if (commandName === 'user-info') {
 		await require("../commands/user-info").execute(interaction)
 	}
-	else if (commandName === 'new-world-channel-setup') {
-		await require("../commands/new-world-channel-setup").execute(interaction)
+	else if (commandName === 'lost-ark-channel-setup') {
+		await require("../commands/lost-ark-channel-setup").execute(interaction)
 	}
 	else if (commandName === 'dota-channel-setup') {
 		await require("../commands/dota-channel-setup").execute(interaction)
@@ -85,7 +85,7 @@ function checkForButtonPresses(interaction) {
 				interaction.reply({ content: `The ${roleName} role has been taken from you...`, ephemeral: true })
 			}
 		}
-		nwGameRoleLogicSetup("New World", "join-new-world", "leave-new-world")
+		nwGameRoleLogicSetup("Lost Ark", "join-lost-ark", "leave-lost-ark")
 		nwGameRoleLogicSetup("dota2", "join-dota", "leave-dota")
 		nwGameRoleLogicSetup("Archeage", "join-archeage", "leave-archeage")
 		nwGameRoleLogicSetup("debater", "join-debate", "leave-debate")
