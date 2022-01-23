@@ -12,6 +12,12 @@ function setupRoles(client) {
 	findAndSetRole("Archeage")
 	findAndSetRole("debater")
 
+	const { lostArkClasses } = require('../store.json');
+
+	lostArkClasses.forEach(function (laClass) {
+		findAndSetRole(laClass)
+	})
+
 	// Create missing roles
 	for (let [key, role] of Object.entries(client.customData.roles))
 	{

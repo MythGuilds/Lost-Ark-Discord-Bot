@@ -1,3 +1,5 @@
+const {lostArkClasses} = require("../store.json");
+
 async function checkForCommands(interaction) {
 	if (!interaction.isCommand()) return;
 	const { adminUsers } = require('../config.json');
@@ -25,6 +27,10 @@ async function checkForCommands(interaction) {
 	else if (commandName === 'archeage-channel-setup') {
 		await require("../commands/archeage-channel-setup").execute(interaction)
 	}
+	else if (commandName === "lostark-main-class-setup") {
+		await require("../commands/lostark-main-class-setup").execute(interaction)
+	}
+
 }
 function checkForButtonPresses(interaction) {
 	let client = interaction.client
@@ -91,11 +97,52 @@ function checkForButtonPresses(interaction) {
 		nwGameRoleLogicSetup("debater", "join-debate", "leave-debate")
 	}
 }
+function checkForLostArkSelect(interaction) {
+	// If interaction is in fact a Lost Ark Main Class Dropdown
+	if (!interaction.isSelectMenu()) return
+	if (interaction.values.length > 1) return
+
+	// Load some data in variables
+	let client = interaction.client
+	let roleName = interaction.values[0]
+	const { lostArkClasses } = require('../store.json');
+	let allClasses = []
+
+	// Some Error checking
+	if (client.customData.roles[roleName] === undefined) return interaction.reply({ content: `error: can't find role ${roleName}!`, ephemeral: true })
+
+	lostArkClasses.forEach(function (laClass) {
+		allClasses.push(client.customData.roles[laClass])
+	})
+	interaction.member.roles.remove(allClasses)
+		.then(() => {
+		interaction.member.roles.add([  client.customData.roles[roleName] ])
+			.then(() => {
+				interaction.reply({ content: `You are now marked as a Lost Ark ${roleName}`, ephemeral: true })
+			})
+			.catch((error) => {
+				interaction.member.roles.add([  client.customData.roles[roleName]  ])
+					.then(() => {
+						interaction.reply({ content: `You are now marked as a Lost Ark ${roleName}`, ephemeral: true })
+					})
+					.catch((error) => {
+						interaction.reply({ content: `An error has occurred attempting to assign the ${roleName} role`, ephemeral: true })
+					})
+			})
+	})
+		.catch((error) => {
+			interaction.reply({ content: `An error has occurred attempting reset all Lost Ark class roles`, ephemeral: true })
+		})
+	console.log(interaction.values)
+
+}
 
 module.exports = {
 	name: 'interactionCreate',
 	async execute(interaction) {
 		await checkForCommands(interaction)
 		checkForButtonPresses(interaction)
+		checkForLostArkSelect(interaction)
+
 	},
 };
