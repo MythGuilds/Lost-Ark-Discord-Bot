@@ -18,7 +18,7 @@ module.exports = {
     execute(member) {
         let client = member.client
         const channel = member.guild.channels.cache
-            .find(channel => channel.id === client.customData.channelCodes["main-chat"])
+            .find(channel => channel.id === client.customData.channelCodes["welcome-chat"])
         let minutesSurvived = diff_minutes(client.customData.newInviteTimes[member.user.username])
         switch(minutesSurvived) {
             case 0:
