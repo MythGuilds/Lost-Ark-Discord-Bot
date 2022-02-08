@@ -11,6 +11,8 @@ function setupRoles(client) {
 	findAndSetRole("dota2")
 	findAndSetRole("Archeage")
 	findAndSetRole("debater")
+	findAndSetRole("pvp access requested")
+	findAndSetRole("Lost Ark PvP Team")
 
 	const { lostArkClasses } = require('../store.json');
 

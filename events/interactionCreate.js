@@ -30,6 +30,10 @@ async function checkForCommands(interaction) {
 	else if (commandName === "lostark-main-class-setup") {
 		await require("../commands/lostark-main-class-setup").execute(interaction)
 	}
+	else if (commandName === "lost-ark-pvp-access-setup") {
+		await require("../commands/lost-ark-pvp-access-setup").execute(interaction)
+	}
+
 
 }
 function checkForButtonPresses(interaction) {
@@ -68,6 +72,24 @@ function checkForButtonPresses(interaction) {
 				return
 			}
 
+			if (interaction.customId == joinID && joinID == "join-lost-ark-pvp-request-access")
+			{
+				interaction.member.roles.add([  client.customData.roles[roleName] ])
+					.then(() => {
+						interaction.reply({ content: `\`${interaction.member.displayName}\` has requested access for his / her team...`, ephemeral: false })
+					})
+					.catch((error) => {
+						interaction.member.roles.add([  client.customData.roles[roleName]  ])
+							.then(() => {
+								interaction.reply({ content: `\`${interaction.member.displayName}\` has requested access for his / her team...`, ephemeral: false })
+							})
+							.catch((error) => {
+								interaction.reply({ content: `You already requested access!`, ephemeral: true })
+							})
+					})
+				return;
+			}
+
 			if (interaction.customId == joinID)
 			{
 				interaction.member.roles.add([  client.customData.roles[roleName] ])
@@ -95,6 +117,7 @@ function checkForButtonPresses(interaction) {
 		nwGameRoleLogicSetup("dota2", "join-dota", "leave-dota")
 		nwGameRoleLogicSetup("Archeage", "join-archeage", "leave-archeage")
 		nwGameRoleLogicSetup("debater", "join-debate", "leave-debate")
+		nwGameRoleLogicSetup("pvp access requested", "join-lost-ark-pvp-request-access", "NA")
 	}
 }
 function checkForLostArkSelect(interaction) {
