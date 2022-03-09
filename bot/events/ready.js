@@ -6,14 +6,6 @@ function setupRoles(client) {
 		client.customData.roles[roleName] = guild.roles.cache.find(r => r.name === roleName)
 	}
 
-	findAndSetRole("Follower")
-	findAndSetRole("Lost Ark")
-	findAndSetRole("dota2")
-	findAndSetRole("Archeage")
-	findAndSetRole("debater")
-	findAndSetRole("pvp access requested")
-	findAndSetRole("Lost Ark PvP Team")
-
 	const { lostArkClasses } = require('../store.json');
 
 	lostArkClasses.forEach(function (laClass) {
