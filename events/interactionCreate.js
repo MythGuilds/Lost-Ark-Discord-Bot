@@ -1,4 +1,4 @@
-const {lostArkClasses} = require("../store.json");
+// const {lostArkClasses} = require("../store.json");
 
 async function checkForCommands(interaction) {
 	if (!interaction.isCommand()) return;
@@ -6,33 +6,32 @@ async function checkForCommands(interaction) {
 	if (interaction.user.id != interaction.client.customData.adminUsers["Daemonleak"]) return;
 	const { commandName } = interaction;
 
-	if (commandName === 'prune') {
+	if (commandName === 'lostark-bot-test') {
+		await require("../commands/lostark-bot-test").execute(interaction)
+	}
+	else if (commandName === 'prune') {
 		await require("../commands/prune").execute(interaction)
 	}
-	else if (commandName === 'channel-info') {
-		await require("../commands/channel-info").execute(interaction)
-	}
-	else if (commandName === 'user-info') {
-		await require("../commands/user-info").execute(interaction)
-	}
-	else if (commandName === 'lost-ark-channel-setup') {
-		await require("../commands/lost-ark-channel-setup").execute(interaction)
-	}
-	else if (commandName === 'dota-channel-setup') {
-		await require("../commands/dota-channel-setup").execute(interaction)
-	}
-	else if (commandName === 'debate-channel-setup') {
-		await require("../commands/debate-channel-setup").execute(interaction)
-	}
-	else if (commandName === 'archeage-channel-setup') {
-		await require("../commands/archeage-channel-setup").execute(interaction)
-	}
-	else if (commandName === "lostark-main-class-setup") {
-		await require("../commands/lostark-main-class-setup").execute(interaction)
-	}
-	else if (commandName === "lost-ark-pvp-access-setup") {
-		await require("../commands/lost-ark-pvp-access-setup").execute(interaction)
-	}
+
+
+	// if (commandName === 'lost-ark-channel-setup') {
+	// 	await require("../commands/lost-ark-channel-setup").execute(interaction)
+	// }
+	// else if (commandName === 'dota-channel-setup') {
+	// 	await require("../commands/dota-channel-setup").execute(interaction)
+	// }
+	// else if (commandName === 'debate-channel-setup') {
+	// 	await require("../commands/debate-channel-setup").execute(interaction)
+	// }
+	// else if (commandName === 'archeage-channel-setup') {
+	// 	await require("../commands/archeage-channel-setup").execute(interaction)
+	// }
+	// else if (commandName === "lostark-main-class-setup") {
+	// 	await require("../commands/lostark-main-class-setup").execute(interaction)
+	// }
+	// else if (commandName === "lost-ark-pvp-access-setup") {
+	// 	await require("../commands/lost-ark-pvp-access-setup").execute(interaction)
+	// }
 
 
 }
@@ -164,8 +163,8 @@ module.exports = {
 	name: 'interactionCreate',
 	async execute(interaction) {
 		await checkForCommands(interaction)
-		checkForButtonPresses(interaction)
-		checkForLostArkSelect(interaction)
+		// checkForButtonPresses(interaction)
+		// checkForLostArkSelect(interaction)
 
 	},
 };
