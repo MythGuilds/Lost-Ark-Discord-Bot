@@ -1,49 +1,55 @@
 <template>
-  <div class="section ">
-    <div class="columns">
-      <div class="column title mb-6">Abyss Dungeons Party Creator</div>
+  <div class="section">
+    <div class="container">
+      <div class="columns">
+        <div class="column title mb-6">{{ gameContentType }} Party Creator</div>
+      </div>
+      <form>
+        <div class="columns">
+          <div class="column">
+            <b-field label="Select your availability (max 6)">
+              <b-datepicker
+                placeholder="Click to select..."
+                v-model="dates"
+                :min-date="yesterday"
+                multiple>
+              </b-datepicker>
+            </b-field>
+          </div>
+          <div class="column">
+            <b-field label="Dungeon Name">
+              <div class="select">
+                <select v-model="dungeon" required>
+                  <option>Demon Beast Canyon</option>
+                  <option>Necromancer’s Origin</option>
+                  <option>Citadel of Illusions</option>
+                  <option>Aurelsud Palace</option>
+                  <option>Oblivion Sea</option>
+                  <option>Perilous Abyss</option>
+                  <option>Underwater Sanctuary</option>
+                  <option>Eye of Aira</option>
+                  <option>Oreha Prabasa</option>
+                </select>
+              </div>
+            </b-field>
+          </div>
+        </div>
+        <div class="columns" v-if="partyCode">
+          <div class="column"><b>Party Code:</b> <code>{{ partyCode }}</code></div>
+        </div>
+        <div class="columns">
+          <div class="column">
+            <b-button type="is-primary mt-2" @click="checkFields">Generate</b-button>
+          </div>
+        </div>
+      </form>
     </div>
-    <form>
-      <div class="columns">
-        <div class="column">
-          <b-field label="Select your availability (max 6)">
-            <b-datepicker
-              placeholder="Click to select..."
-              v-model="dates"
-              :min-date="yesterday"
-              multiple>
-            </b-datepicker>
-          </b-field>
-        </div>
-        <div class="column">
-          <b-field label="Dungeon Name">
-            <div class="select">
-              <select v-model="dungeon" required>
-                <option>Demon Beast Canyon</option>
-                <option>Necromancer’s Origin</option>
-                <option>Citadel of Illusions</option>
-                <option>Aurelsud Palace</option>
-                <option>Oblivion Sea</option>
-                <option>Perilous Abyss</option>
-                <option>Underwater Sanctuary</option>
-                <option>Eye of Aira</option>
-                <option>Oreha Prabasa</option>
-              </select>
-            </div>
-          </b-field>
-        </div>
-      </div>
-      <div class="columns">
-        <div class="column">
-          <b-button type="is-primary mt-2" @click="checkFields">Generate</b-button>
-        </div>
-      </div>
-    </form>
   </div>
 
 </template>
 
 <script>
+const axios = require('axios');
 const { DateTime } = require("luxon");
 function sortLuxonDates(a, b) {
   return a.toMillis() - b.toMillis()
@@ -60,7 +66,11 @@ export default {
       dates: [new Date(new Date().setDate(new Date().getDate()))],
       dungeon: "",
       yesterday: new Date(new Date().setDate(new Date().getDate()-1)),
-      freshGen: true
+      freshGen: true,
+      pinataApiKey: "",
+      pinataSecretApiKey: "",
+      gameContentType: "Abyss Dungeon",
+      partyCode: ""
     }
   },
   watch: {
@@ -87,19 +97,43 @@ export default {
     }
   },
   methods: {
+    submitData() {
+      this.partyCode = ""
+      const JSON = {
+        "Game Content": {
+          "type": this.gameContentType,
+          "name": this.dungeon
+        },
+        dates: this.formattedDates
+      }
+      let self = this
+      const pinJSONToIPFS = (pinataApiKey, pinataSecretApiKey, JSONBody, self) => {
+        const url = `https://api.pinata.cloud/pinning/pinJSONToIPFS`;
+        return axios
+          .post(url, JSONBody, {
+            headers: {
+              pinata_api_key: pinataApiKey,
+              pinata_secret_api_key: pinataSecretApiKey
+            }
+          })
+          .then(function (response) {
+            self.$data.partyCode = response.data["IpfsHash"]
+          })
+          .catch(function (error) {
+            self.$data.partyCode = `IPFS Pinata: ${error}. Please contact admin.`
+          });
+      }
+      pinJSONToIPFS(this.pinataApiKey, this.pinataSecretApiKey, JSON, self)
+    },
     checkFields() {
-      document.forms[0].reportValidity();
+      let isValid = document.forms[0].reportValidity();
       if (!document.querySelectorAll('input')[0].value) {
-        this.$buefy.toast.open({
-          duration: 5000,
-          message: `Availability blank, reseting to default...`,
-          position: 'is-top',
-          type: 'is-black'
-        })
         this.$data.freshGen = true
         this.$data.dates = [new Date(new Date().setDate(new Date().getDate()))]
       }
-
+      if (isValid) {
+        this.submitData()
+      }
     }
   },
   mounted() {
