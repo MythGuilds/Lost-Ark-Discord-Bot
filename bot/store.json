@@ -15,5 +15,19 @@
     "Soulfist LFG",
     "Striker LFG",
     "Wardancer LFG"
+  ],
+  "validGameContentTypes": [
+    "Abyssal Dungeon"
+  ],
+  "validGameContentName": [
+    "Demon Beast Canyon",
+    "Necromancer’s Origin",
+    "Citadel of Illusions",
+    "Aurelsud Palace",
+    "Oblivion Sea",
+    "Perilous Abyss",
+    "Underwater Sanctuary",
+    "Eye of Aira",
+    "Oreha Prabasa"
   ]
 }

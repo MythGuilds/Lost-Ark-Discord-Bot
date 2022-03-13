@@ -1,4 +1,3 @@
-
 function setupRoles(client) {
 	client.customData.roles = {}
 	let guild = client.guilds.cache.find(g => g.name === client.customData.guildName)
@@ -13,8 +12,7 @@ function setupRoles(client) {
 	})
 
 	// Create missing roles
-	for (let [key, role] of Object.entries(client.customData.roles))
-	{
+	for (let [key, role] of Object.entries(client.customData.roles)) {
 		if (role === undefined)
 		{
 			console.log(`${key} is not defined, creating it...`)
@@ -24,6 +22,18 @@ function setupRoles(client) {
 			findAndSetRole(key)
 		}
 	}
+}
+async function loadData() {
+	const Keyv = require('keyv')
+	const keyv = new Keyv('sqlite://../keyv.sqlite')
+
+	const { validGameContentTypes, validGameContentName } = require('../store.json')
+	await keyv.delete('validGameContentTypes')
+	await keyv.set('validGameContentTypes', validGameContentTypes)
+	await keyv.delete('validGameContentName')
+	await keyv.set('validGameContentName', validGameContentName)
+
+	return console.log("Data loaded into Keyv...")
 }
 module.exports = {
 	name: 'ready',
@@ -39,15 +49,13 @@ module.exports = {
 		client.customData.adminUsers = {}
 		client.customData.channels = {}
 
-		for (let [key, value] of Object.entries(channelCodes))
-		{
+		for (let [key, value] of Object.entries(channelCodes)) {
 			await guild.channels.fetch(value).then(function (data) {
 				client.customData.channels[key] = data
 			})
 		}
 
-		for (let [key, value] of Object.entries(adminUsers))
-		{
+		for (let [key, value] of Object.entries(adminUsers)) {
 			if (value !== "")
 			{
 				await guild.members.fetch(value).then(function (data) {
@@ -61,6 +69,7 @@ module.exports = {
 
 
 		setupRoles(client)
+		await loadData()
 
 		console.log(`Ready! Logged in as ${client.user.tag}`);
 	},

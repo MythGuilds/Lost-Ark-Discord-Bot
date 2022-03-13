@@ -1,6 +1,8 @@
-const axios = require("axios")
-const Ajv = require("ajv")
 const {MessageEmbed} = require("discord.js");
+const { DateTime } = require("luxon");
+const Keyv = require('keyv')
+const keyv = new Keyv('sqlite://../keyv.sqlite')
+
 
 module.exports = {
 	name: 'messageCreate',
@@ -30,6 +32,8 @@ module.exports = {
 			channel.send({ embeds: [exampleEmbed] });
 		}
 		const parseFetchIPFS = function () {
+			const axios = require("axios")
+			const Ajv = require("ajv")
 			const ajv = new Ajv()
 			const schema = {
 				type: "object",
@@ -46,7 +50,7 @@ module.exports = {
 				required: ["game content type", "game content name", "dates"],
 				additionalProperties: false
 			}
-			const validateJSON = ajv.compile(schema)
+			const validateJSONStructure = ajv.compile(schema)
 			console.log(`Parsing: ${message.content}`)
 			const ipfsHash = message.content.trim().replace("LAPFC::", "")
 			const alphanumeric = /^[0-9a-zA-Z]+$/
@@ -59,24 +63,44 @@ module.exports = {
 				console.log(ipfsHash)
 				message.delete()
 				axiosInstance.get(ipfsHash)
-					.then(function (res) {
+					.then(async function (res) {
 
-						if (res.status == 200) console.log(`${ipfsHash}: IPFS Network Connection Valid`)
+						// Check for successful connection to the IPFS Network via http get
+						if (res.status === 200) console.log(`${ipfsHash}: IPFS Network Connection Valid`)
 						else return console.log(`${ipfsHash} Error: ${res.status} ${res.statusText}`)
 
 						const data = res.data
 						console.log(data)
 
-						const valid = validateJSON(data)
-						if (!valid) console.log(validateJSON.errors)
-						else postRecruitmentMessage()
+						// Validate basic JSON structure
+						const validJSONStructure = validateJSONStructure(data)
+						if (!validJSONStructure) return console.log(validateJSONStructure.errors)
+
+						// Pull from storage: Game Content Type & Game Content Name
+						const validGameContentTypes = await keyv.get('validGameContentTypes')
+						const validGameContentName = await keyv.get('validGameContentName')
+
+						// Validate: Game Content Type & Game Content Name
+						if (!validGameContentTypes.includes(data["game content type"]))
+							return console.log(`Game content type invalid: ${data["game content type"]}`)
+						if (!validGameContentName.includes(data["game content name"]))
+							return console.log(`Game content name invalid: ${data["game content name"]}`)
+
+						// Validate: All dates listed
+						let datesAreValid = true
+						data["dates"].forEach(function (date) {
+							let dateInQuestion = DateTime.fromFormat(date.replaceAll("/", " "), "M d yyyy")
+							if (!dateInQuestion.isValid) datesAreValid = false
+						})
+						if (!datesAreValid) return console.log("One or more invalid date found")
+
+						postRecruitmentMessage()
 					})
 					.catch(function (error) {
 						console.error(error)
 					})
 			}
 		}
-		if (message.content.startsWith("LAPFC::"))
-		parseFetchIPFS()
+		if (message.content.startsWith("LAPFC::")) parseFetchIPFS()
 	},
 };
