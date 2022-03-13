@@ -35,8 +35,19 @@
           </div>
         </div>
         <div class="columns" v-if="partyCode">
-          <div class="column"><b>Party Code:</b> <code>{{ partyCode }}</code></div>
+          <div class="column">
+            <i>Copy & Paste the Party Code anywhere in the discord</i>
+          </div>
         </div>
+        <div class="columns" v-if="partyCode">
+          <div class="column">
+            <b>Party Code</b>
+            <br style="margin-bottom: 5px">
+            <code>LAPFC::{{ partyCode }}</code>
+            <b-button type="is-success is-small" @click="copyCode" style="margin-top: -2px; margin-left: 5px">Copy</b-button>
+          </div>
+        </div>
+
         <div class="columns">
           <div class="column">
             <b-button type="is-primary mt-2" @click="checkFields">Generate</b-button>
@@ -67,9 +78,9 @@ export default {
       dungeon: "",
       yesterday: new Date(new Date().setDate(new Date().getDate()-1)),
       freshGen: true,
-      pinataApiKey: "",
-      pinataSecretApiKey: "",
-      gameContentType: "Abyss Dungeon",
+      pinataApiKey: "a6d4760b040abd97e3df",
+      pinataSecretApiKey: "f025e388518b5cc60fed0b15a34d8e55d6f07a5801f0dd079f30ec3340da53b7",
+      gameContentType: "Abyssal Dungeon",
       partyCode: ""
     }
   },
@@ -100,11 +111,9 @@ export default {
     submitData() {
       this.partyCode = ""
       const JSON = {
-        "Game Content": {
-          "type": this.gameContentType,
-          "name": this.dungeon
-        },
-        dates: this.formattedDates
+        "game content type": this.gameContentType,
+        "game content name": this.dungeon,
+        "dates": this.formattedDates
       }
       let self = this
       const pinJSONToIPFS = (pinataApiKey, pinataSecretApiKey, JSONBody, self) => {
@@ -134,6 +143,9 @@ export default {
       if (isValid) {
         this.submitData()
       }
+    },
+    copyCode() {
+      navigator.clipboard.writeText("LAPFC::"+this.partyCode)
     }
   },
   mounted() {
