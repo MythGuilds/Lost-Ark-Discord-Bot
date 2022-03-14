@@ -22,13 +22,15 @@
                 <select v-model="dungeon" required>
                   <option>Demon Beast Canyon</option>
                   <option>Necromancer’s Origin</option>
-                  <option>Citadel of Illusions</option>
-                  <option>Aurelsud Palace</option>
-                  <option>Oblivion Sea</option>
-                  <option>Perilous Abyss</option>
-                  <option>Underwater Sanctuary</option>
-                  <option>Eye of Aira</option>
-                  <option>Oreha Prabasa</option>
+                  <option>Hall of the Twisted Warlord</option>
+                  <option>Hildebrandt Palace</option>
+                  <option>Road of Lament</option>
+                  <option>Forge of Fallen Pride</option>
+                  <option>Sea of Indolence</option>
+                  <option>Tranquil Karkosa</option>
+                  <option>Alaric's Sanctuary</option>
+                  <option>Aira's Oculus</option>
+                  <option>Oreha Preveza</option>
                 </select>
               </div>
             </b-field>

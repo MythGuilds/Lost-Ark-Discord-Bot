@@ -1,3 +1,5 @@
+const {validGameContentName} = require("../store.json");
+
 function setupRoles(client) {
 	client.customData.roles = {}
 	let guild = client.guilds.cache.find(g => g.name === client.customData.guildName)
@@ -25,13 +27,15 @@ function setupRoles(client) {
 }
 async function loadData() {
 	const Keyv = require('keyv')
-	const keyv = new Keyv('sqlite://../keyv.sqlite')
+	const keyv = new Keyv('redis://localhost:6379')
 
-	const { validGameContentTypes, validGameContentName } = require('../store.json')
+	const { validGameContentTypes, validGameContentName, AbyssalDungeon } = require('../store.json')
 	await keyv.delete('validGameContentTypes')
 	await keyv.set('validGameContentTypes', validGameContentTypes)
 	await keyv.delete('validGameContentName')
 	await keyv.set('validGameContentName', validGameContentName)
+	await keyv.delete('AbyssalDungeon')
+	await keyv.set('AbyssalDungeon', AbyssalDungeon)
 
 	return console.log("Data loaded into Keyv...")
 }

@@ -22,12 +22,76 @@
   "validGameContentName": [
     "Demon Beast Canyon",
     "Necromancer’s Origin",
-    "Citadel of Illusions",
-    "Aurelsud Palace",
-    "Oblivion Sea",
-    "Perilous Abyss",
-    "Underwater Sanctuary",
-    "Eye of Aira",
-    "Oreha Prabasa"
-  ]
+    "Hall of the Twisted Warlord",
+    "Hildebrandt Palace",
+
+    "Road of Lament",
+    "Forge of Fallen Pride",
+    "Sea of Indolence",
+    "Tranquil Karkosa",
+    "Alaric's Sanctuary",
+
+    "Aira's Oculus",
+    "Oreha Preveza"
+  ],
+  "AbyssalDungeon": {
+    "Demon Beast Canyon": {
+      "minGearScore": 340,
+      "image": "https://assets.maxroll.gg/wp-content/assets/img/Abyssal_Dungeons/Tier_1/1%20Demon%20Beast%20Canyon.jpg",
+      "guide": "https://lost-ark.maxroll.gg/abyssal-dungeons/demon-beast-canyon"
+    },
+    "Necromancer’s Origin": {
+      "minGearScore": 340,
+      "image": "https://assets.maxroll.gg/wp-content/assets/img/Abyssal_Dungeons/Tier_1/2%20Necromancers%20Origin.jpg",
+      "guide": "https://lost-ark.maxroll.gg/abyssal-dungeons/necromancers-origin"
+    },
+    "Hall of the Twisted Warlord": {
+      "minGearScore": 460,
+      "image": "https://assets.maxroll.gg/wp-content/assets/img/Abyssal_Dungeons/Tier_1/3%20Hall%20of%20the%20Twisted%20Warlord.jpg",
+      "guide": "https://lost-ark.maxroll.gg/abyssal-dungeons/hall-of-the-twisted-warlord"
+    },
+    "Hildebrandt Palace": {
+      "minGearScore": 460,
+      "image": "https://assets.maxroll.gg/wp-content/assets/img/Abyssal_Dungeons/Tier_1/4%20Hildebrandt%20Palace.jpg",
+      "guide": "https://lost-ark.maxroll.gg/abyssal-dungeons/hildebrandt-palace"
+    },
+
+    "Road of Lament": {
+      "minGearScore": 840,
+      "image": "https://assets.maxroll.gg/wp-content/assets/img/Abyssal_Dungeons/Tier_2/1%20Road%20of%20Lament.jpg",
+      "guide": "https://lost-ark.maxroll.gg/abyssal-dungeons/road-of-lament"
+    },
+    "Forge of Fallen Pride": {
+      "minGearScore": 840,
+      "image": "https://assets.maxroll.gg/wp-content/assets/img/Abyssal_Dungeons/Tier_2/2%20Forge%20of%20Fallen%20Pride.jpg",
+      "guide": "https://lost-ark.maxroll.gg/abyssal-dungeons/forge-of-fallen-pride"
+    },
+    "Sea of Indolence": {
+      "minGearScore": 960,
+      "image": "https://assets.maxroll.gg/wp-content/assets/img/Abyssal_Dungeons/Tier_2/3%20Sea%20of%20Indolence.jpg",
+      "guide": "https://lost-ark.maxroll.gg/abyssal-dungeons/sea-of-indolence"
+    },
+    "Tranquil Karkosa": {
+      "minGearScore": 960,
+      "image": "https://assets.maxroll.gg/wp-content/assets/img/Abyssal_Dungeons/Tier_2/4%20Tranquil%20Karkosa.jpg",
+      "guide": "https://lost-ark.maxroll.gg/abyssal-dungeons/tranquil-karkosa"
+    },
+    "Alaric's Sanctuary": {
+      "minGearScore": 960,
+      "image": "https://assets.maxroll.gg/wp-content/assets/img/Abyssal_Dungeons/Tier_2/5%20Alaric's%20Sanctuary.jpg",
+      "guide": "https://lost-ark.maxroll.gg/abyssal-dungeons/alarics-sanctuary"
+    },
+
+    "Aira's Oculus": {
+      "minGearScore": 1325,
+      "image": "https://assets.maxroll.gg/wp-content/assets/img/Abyssal_Dungeons/Tier_3/1%20Aira's%20Oculus.jpg",
+      "guide": "https://lost-ark.maxroll.gg/abyssal-dungeons/airas-oculus"
+    },
+    "Oreha Preveza": {
+      "minGearScore": 1325,
+      "image": "https://assets.maxroll.gg/wp-content/assets/img/Abyssal_Dungeons/Tier_3/2%20Oreha%20Preveza.jpg",
+      "guide": "https://lost-ark.maxroll.gg/abyssal-dungeons/oreha-preveza"
+    }
+
+  }
 }

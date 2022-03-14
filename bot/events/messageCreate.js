@@ -1,7 +1,7 @@
 const {MessageEmbed} = require("discord.js");
 const { DateTime } = require("luxon");
 const Keyv = require('keyv')
-const keyv = new Keyv('sqlite://../keyv.sqlite')
+const keyv = new Keyv('redis://localhost:6379')
 
 
 module.exports = {
@@ -9,27 +9,47 @@ module.exports = {
 	execute(message) {
 		let channel = message.channel
 
-		const postRecruitmentMessage = function () {
-			if(message.author.bot) return;
-			const exampleEmbed = new MessageEmbed()
-				.setColor('#0099ff')
-				.setTitle('Some title')
-				.setURL('https://discord.js.org/')
-				.setAuthor({ name: 'Some name', iconURL: 'https://i.imgur.com/AfFp7pu.png', url: 'https://discord.js.org' })
-				.setDescription('Some description here')
-				.setThumbnail('https://i.imgur.com/AfFp7pu.png')
-				.addFields(
-					{ name: 'Regular field title', value: 'Some value here' },
-					{ name: '\u200B', value: '\u200B' },
-					{ name: 'Inline field title', value: 'Some value here', inline: true },
-					{ name: 'Inline field title', value: 'Some value here', inline: true },
-				)
-				.addField('Inline field title', 'Some value here', true)
-				.setImage('https://i.imgur.com/AfFp7pu.png')
-				.setTimestamp()
-				.setFooter({ text: 'Some footer text here', iconURL: 'https://i.imgur.com/AfFp7pu.png' });
+		const postRecruitmentMessage = async function (channelType, contentType, contentName, dates) {
 
-			channel.send({ embeds: [exampleEmbed] });
+			const channelID = message.client.customData.channelCodes[channelType]
+			let channel = message.guild.channels.cache.get(channelID)
+
+			if (message.author.bot) return;
+			let guild = message.client.guilds.cache.find(g => g.name === message.client.customData.guildName)
+			let member = await guild.members.fetch(message.author.id)
+			let nickname = message.author.username
+			if (member.nickname) nickname = member.nickname
+
+			let data = await keyv.get(contentType.replaceAll(" ", ""))
+			const dungeon = data[contentName]
+			const gearScore = dungeon["minGearScore"]
+			const guide = dungeon["guide"]
+
+			const circles = [":blue_circle:", ":brown_circle:", ":green_circle:", ":orange_circle:", ":purple_circle:", ":red_circle:"]
+			let date_fields = []
+
+			for (let i = 0; i < dates.length; i++) {
+				date_fields.push({
+					name: `Date ${circles[i]}`,
+					value: dates[i],
+					inline: true
+				})
+			}
+
+			const exampleEmbed = new MessageEmbed()
+				.setColor('#000000')
+				.setTitle(contentName)
+				.setAuthor({name: nickname, iconURL: message.author.displayAvatarURL()})
+				.setDescription(`Guide: ${guide}`)
+				.addField('Min Gear Score', gearScore.toString())
+				.addField('\u200B', '\u200B')
+				.addFields(date_fields)
+				.setImage(dungeon["image"])
+				.setTimestamp()
+
+			channel.send(`${message.author} created a party...`);
+			channel.send({embeds: [exampleEmbed]});
+
 		}
 		const parseFetchIPFS = function () {
 			const axios = require("axios")
@@ -94,7 +114,8 @@ module.exports = {
 						})
 						if (!datesAreValid) return console.log("One or more invalid date found")
 
-						postRecruitmentMessage()
+						let channelType = data["game content type"].toLowerCase().replaceAll(" ", "-")
+						await postRecruitmentMessage(channelType, data["game content type"], data["game content name"], data["dates"])
 					})
 					.catch(function (error) {
 						console.error(error)

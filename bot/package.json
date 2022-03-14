@@ -4,7 +4,7 @@
   "dependencies": {
     "@discordjs/builders": "^0.6.0",
     "@discordjs/rest": "^0.1.0-canary.0",
-    "@keyv/sqlite": "^3.0.0",
+    "@keyv/redis": "^2.2.3",
     "ajv": "^8.10.0",
     "axios": "^0.26.1",
     "discord-api-types": "^0.23.1",
