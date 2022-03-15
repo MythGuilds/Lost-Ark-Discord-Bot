@@ -2,13 +2,51 @@ const {MessageEmbed} = require("discord.js");
 const { DateTime } = require("luxon");
 const Keyv = require('keyv')
 const keyv = new Keyv('redis://localhost:6379')
-
+const KeyvRedis = require("@keyv/redis");
+const LAPF_MESSAGES = new Keyv({ store: new KeyvRedis('redis://localhost:6379'), namespace: 'LAPF_MESSAGES' })
+const axios = require("axios")
+const Ajv = require("ajv")
 
 module.exports = {
 	name: 'messageCreate',
 	execute(message) {
 		let channel = message.channel
+		let client = message.client
+		const circles = [":blue_circle:", ":brown_circle:", ":green_circle:", ":orange_circle:", ":purple_circle:", ":red_circle:"]
 
+		const saveToMemory = function (gameContentName, dates) {
+
+			let emoji = {}
+			dates.forEach(function (date, index) {
+				emoji[circles[index]] = {
+					"date": date,
+					"users": []
+				}
+			})
+			let JSON = {
+				"message_id": message.id,
+				"party_leader_id": message.author.id,
+				"game_content_name": gameContentName,
+				"emoji": emoji
+			}
+			console.log(JSON)
+		}
+		const removePinFromIPFS = (pinataApiKey, pinataSecretApiKey, hashToUnpin) => {
+			const url = `https://api.pinata.cloud/pinning/unpin/${hashToUnpin}`;
+			return axios
+				.delete(url, {
+					headers: {
+						pinata_api_key: pinataApiKey,
+						pinata_secret_api_key: pinataSecretApiKey
+					}
+				})
+				.then(function (response) {
+					console.log(`Unpin Success`)
+				})
+				.catch(function (error) {
+					console.log(`Unpin failed`)
+				});
+		};
 		const postRecruitmentMessage = async function (channelType, contentType, contentName, dates) {
 
 			const channelID = message.client.customData.channelCodes[channelType]
@@ -25,7 +63,7 @@ module.exports = {
 			const gearScore = dungeon["minGearScore"]
 			const guide = dungeon["guide"]
 
-			const circles = [":blue_circle:", ":brown_circle:", ":green_circle:", ":orange_circle:", ":purple_circle:", ":red_circle:"]
+
 			let date_fields = []
 
 			for (let i = 0; i < dates.length; i++) {
@@ -50,10 +88,11 @@ module.exports = {
 			channel.send(`${message.author} created a party...`);
 			channel.send({embeds: [exampleEmbed]});
 
+			saveToMemory(contentName, dates)
+
 		}
 		const parseFetchIPFS = function () {
-			const axios = require("axios")
-			const Ajv = require("ajv")
+
 			const ajv = new Ajv()
 			const schema = {
 				type: "object",
@@ -80,17 +119,17 @@ module.exports = {
 					baseURL: 'https://gateway.pinata.cloud/ipfs/',
 					timeout: 10000
 				})
-				console.log(ipfsHash)
 				message.delete()
 				axiosInstance.get(ipfsHash)
 					.then(async function (res) {
-
 						// Check for successful connection to the IPFS Network via http get
 						if (res.status === 200) console.log(`${ipfsHash}: IPFS Network Connection Valid`)
 						else return console.log(`${ipfsHash} Error: ${res.status} ${res.statusText}`)
 
 						const data = res.data
 						console.log(data)
+
+						await removePinFromIPFS(client.customData.pinataApiKey, client.customData.pinataSecretApiKey, ipfsHash)
 
 						// Validate basic JSON structure
 						const validJSONStructure = validateJSONStructure(data)

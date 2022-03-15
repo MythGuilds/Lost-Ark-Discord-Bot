@@ -43,9 +43,12 @@ module.exports = {
 	name: 'ready',
 	once: true,
 	async execute(client) {
-		const { channelCodes, guildName, adminUsers } = require('../config.json');
+		const { channelCodes, guildName, adminUsers, pinataApiKey, pinataSecretApiKey } = require('../config.json');
 		client.customData = {}
 		client.customData.guildName = guildName
+
+		client.customData.pinataApiKey = pinataApiKey
+		client.customData.pinataSecretApiKey = pinataSecretApiKey
 
 		client.customData.channelCodes = channelCodes
 		client.customData.newInviteTimes = {}

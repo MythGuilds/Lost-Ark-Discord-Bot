@@ -38,7 +38,7 @@
         </div>
         <div class="columns" v-if="partyCode">
           <div class="column">
-            <i>Copy & Paste the Party Code anywhere in the discord</i>
+            <i>Copy & Paste the Party Code anywhere in <u><b>your guilds</b></u> discord</i>
           </div>
         </div>
         <div class="columns" v-if="partyCode">
@@ -80,8 +80,8 @@ export default {
       dungeon: "",
       yesterday: new Date(new Date().setDate(new Date().getDate()-1)),
       freshGen: true,
-      pinataApiKey: "a6d4760b040abd97e3df",
-      pinataSecretApiKey: "f025e388518b5cc60fed0b15a34d8e55d6f07a5801f0dd079f30ec3340da53b7",
+      pinataApiKey: "433aaba97684a683a35d",
+      pinataSecretApiKey: "bbccc983f97fb15bb1d54a723f03eb19aab69b6db17bd15ff0a28d8b4052b8c9",
       gameContentType: "Abyssal Dungeon",
       partyCode: ""
     }
