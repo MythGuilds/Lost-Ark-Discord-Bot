@@ -1,4 +1,7 @@
 // const {lostArkClasses} = require("../store.json");
+const Keyv = require('keyv')
+const KeyvRedis = require("@keyv/redis");
+const LAPF_PLAYER_JOB = new Keyv({ store: new KeyvRedis('redis://localhost:6379'), namespace: 'LAPF_PLAYER_JOB' })
 
 async function checkForCommands(interaction) {
 	if (!interaction.isCommand()) return;
@@ -14,6 +17,12 @@ async function checkForCommands(interaction) {
 	}
 	else if (commandName === 'abyssal-dungeon-setup') {
 		await require("../commands/abyssal-dungeon-setup").execute(interaction)
+	}
+	else if (commandName === 'lostark-lfg-job-setup') {
+		await require("../commands/lostark-lfg-job-setup").execute(interaction)
+	}
+	else {
+		interaction.reply({ content: `Command not found in logic...`, ephemeral: true})
 	}
 
 }
@@ -31,11 +40,31 @@ function checkForButtonPresses(interaction) {
 		webUILogicSetup("show-abyssal-dungeon-link")
 	}
 }
+async function checkForLostArkJobSelect(interaction) {
+	const validJobs = ["DPS", "Support"]
+
+	// Return if not a select event
+	if (!interaction.isSelectMenu()) return
+
+	// Return if select is multi
+	if (interaction.values.length > 1) return
+
+	const playerJob = interaction.values[0]
+	if (!validJobs.includes(playerJob)) return
+
+	const memberID = interaction.user.id
+	await LAPF_PLAYER_JOB.set(memberID, playerJob)
+
+	interaction.reply({ content: `You will now join parties as a ${playerJob}`, ephemeral: true})
+	console.log(await LAPF_PLAYER_JOB.get(memberID))
+
+}
 
 module.exports = {
 	name: 'interactionCreate',
 	async execute(interaction) {
 		await checkForCommands(interaction)
 		checkForButtonPresses(interaction)
+		checkForLostArkJobSelect(interaction)
 	},
 };
